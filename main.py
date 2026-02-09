@@ -1,17 +1,16 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+import uvicorn
+import os
 
 app = FastAPI()
 
-class Mensagem(BaseModel):
-    texto: str
-
 @app.get("/")
-def inicio():
-    return {"status": "MusicAí backend rodando"}
-
-@app.post("/chat/consulta")
-def chat_consulta(mensagem: Mensagem):
+def root():
     return {
-        "resposta": f"Você perguntou sobre teoria musical: {mensagem.texto}"
+        "status": "MusicAí backend online",
+        "message": "Servidor rodando com sucesso 🎶"
     }
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
