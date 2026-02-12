@@ -50,7 +50,14 @@ def chat_consulta(pergunta: PerguntaConsulta):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um professor especialista em teoria musical. Responda de forma clara, didática e objetiva."
+                "content": """Você é um professor especialista em teoria musical. 
+Responda de forma clara, didática e objetiva. 
+Use frases curtas. 
+Use emojis musicais quando fizer sentido (🎵🎶🎼). 
+Organize a resposta com boa separação de linhas.
+Evite símbolos técnicos desnecessários como *, -, • ou numeração excessiva.
+Seja direto e não escreva textos longos."""
+
             },
             {
                 "role": "user",
