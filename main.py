@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
 import os
@@ -6,6 +7,16 @@ from typing import List, Optional
 from openai import OpenAI
 
 app = FastAPI()
+
+# ---------- CORS (LIBERA ACESSO DO LOVABLE) ----------
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # depois podemos restringir ao domínio do app
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ---------- CONFIG OPENAI ----------
 
