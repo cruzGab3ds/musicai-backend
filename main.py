@@ -3,8 +3,13 @@ from pydantic import BaseModel
 import uvicorn
 import os
 from typing import List, Optional
+from openai import OpenAI
 
 app = FastAPI()
+
+# ---------- CONFIG OPENAI ----------
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ---------- MODELOS ----------
 
@@ -28,10 +33,28 @@ def root():
 
 @app.post("/chat/consulta")
 def chat_consulta(pergunta: PerguntaConsulta):
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um professor especialista em teoria musical. Responda de forma clara, didática e objetiva."
+            },
+            {
+                "role": "user",
+                "content": pergunta.texto
+            }
+        ],
+        temperature=0.3
+    )
+
+    resposta_ia = response.choices[0].message.content
+
     return {
         "tipo": "consulta",
         "pergunta": pergunta.texto,
-        "resposta": "Resposta de teoria musical virá por IA em breve 🎵"
+        "resposta": resposta_ia
     }
 
 @app.post("/chat/ideias")
